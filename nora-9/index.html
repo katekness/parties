@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Nora Turns 9</title>
+<meta name="description" content="You're invited to Nora's 9th birthday party! Sunday, November 15, 2 to 4 PM.">
+<meta property="og:title" content="You're invited to Nora's 9th birthday! 🎀">
+<meta property="og:description" content="Sunday, November 15 · 2 to 4 PM · Tap to RSVP and see Nora's wishlist">
+<meta name="theme-color" content="#f9c5d5">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#f9c5d5; --pink-soft:#fff0f5; --pink-mid:#f7a8c0;
+    --red:#e8334a; --red-deep:#c21f37; --ink:#5a2a3a; --white:#fff;
+    --yellow:#ffd65c; --shadow:0 10px 30px rgba(194,31,55,.15);
+    --r:28px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Quicksand",system-ui,sans-serif;color:var(--ink);
+    background-color:var(--pink-soft);
+    background-image:
+      linear-gradient(90deg,rgba(247,168,192,.35) 50%,transparent 50%),
+      linear-gradient(rgba(247,168,192,.35) 50%,transparent 50%);
+    background-size:44px 44px;
+    min-height:100vh;overflow-x:hidden;
+    padding-bottom:calc(90px + env(safe-area-inset-bottom));
+  }
+  h1,h2,h3,.btn,.chip{font-family:"Fredoka",sans-serif}
+  .wrap{max-width:560px;margin:0 auto;padding:20px 16px}
+
+  .floaty{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .floaty span{position:absolute;bottom:-40px;font-size:22px;opacity:.55;animation:rise linear infinite}
+  @keyframes rise{to{transform:translateY(-115vh) rotate(25deg)}}
+
+  .card{
+    position:relative;z-index:1;background:var(--white);border-radius:var(--r);
+    box-shadow:var(--shadow);padding:28px 22px;margin:18px 0;
+    border:3px solid var(--pink);
+  }
+
+  .hero{text-align:center;padding-top:44px;margin-top:40px}
+  .hero .bow{position:absolute;top:-38px;left:50%;transform:translateX(-50%);width:120px;cursor:pointer;
+    filter:drop-shadow(0 6px 8px rgba(194,31,55,.25));transition:transform .2s}
+  .hero .bow:active{transform:translateX(-50%) scale(.9) rotate(-6deg)}
+  .eyebrow{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--red)}
+  .hero h1{font-size:clamp(2.6rem,12vw,3.6rem);line-height:1.05;margin:10px 0 4px;color:var(--red)}
+  .hero h1 .nine{display:inline-grid;place-items:center;width:1.3em;height:1.3em;border-radius:50%;
+    background:var(--red);color:#fff;transform:rotate(-8deg);margin-left:.08em;box-shadow:0 6px 0 var(--red-deep)}
+  .hero p.sub{font-size:1.1rem;font-weight:600;margin-top:14px}
+  .tapnote{font-size:.8rem;opacity:.65;margin-top:8px}
+
+  .details{display:grid;gap:10px;margin-top:22px;text-align:left}
+  .detail{display:flex;gap:14px;align-items:center;background:var(--pink-soft);border-radius:18px;padding:12px 16px}
+  .detail .ic{font-size:1.6rem;flex:none}
+  .detail b{display:block;font-family:"Fredoka";font-size:1.05rem}
+  .detail small{font-size:.9rem;opacity:.8}
+
+  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
+  .count div{background:var(--red);color:#fff;border-radius:16px;padding:10px 4px;text-align:center;box-shadow:0 5px 0 var(--red-deep)}
+  .count b{font-family:"Fredoka";font-size:1.7rem;display:block;line-height:1}
+  .count small{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .count-done{display:none;margin-top:18px;font-family:"Fredoka";font-size:1.4rem;color:var(--red)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
+    font-size:1.05rem;font-weight:600;border-radius:999px;padding:14px 22px;text-decoration:none;
+    transition:transform .15s, box-shadow .15s}
+  .btn:active{transform:translateY(3px)}
+  .btn-red{background:var(--red);color:#fff;box-shadow:0 5px 0 var(--red-deep)}
+  .btn-red:active{box-shadow:0 2px 0 var(--red-deep)}
+  .btn-soft{background:var(--pink-soft);color:var(--red);border:2px solid var(--pink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+
+  h2{font-size:1.7rem;color:var(--red);text-align:center;margin-bottom:6px}
+  .section-sub{text-align:center;font-weight:600;opacity:.8;margin-bottom:18px}
+  .h2-bow{width:46px;display:block;margin:0 auto 6px}
+
+  .wish-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .wish{background:var(--pink-soft);border-radius:20px;padding:16px 12px;text-align:center;text-decoration:none;color:var(--ink);
+    border:2px solid transparent;transition:transform .15s,border-color .15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .wish:hover{border-color:var(--pink-mid)}
+  .wish:active{transform:scale(.97)}
+  .wish .emo{font-size:2.2rem}
+  .wish b{font-family:"Fredoka";font-size:1rem;line-height:1.2}
+  .wish small{font-size:.8rem;opacity:.75}
+  .wish .go{margin-top:auto;font-family:"Fredoka";font-size:.85rem;color:var(--red)}
+  .wish.fav{grid-column:1/-1;flex-direction:row;text-align:left;gap:14px;background:#fff7d6;border-color:var(--yellow)}
+  .wish.fav .emo{font-size:2.6rem}
+  .chip{display:inline-block;font-size:.7rem;background:var(--yellow);color:var(--ink);border-radius:999px;padding:2px 10px;margin-bottom:4px}
+
+  .rsvp-frame{border-radius:20px;overflow:hidden;background:#fff5f8;min-height:420px}
+  .rsvp-frame iframe{width:100%;border:0;display:block}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-top:3px solid var(--pink);display:flex;gap:10px;justify-content:center}
+  .bar .btn{flex:1;max-width:260px;padding:12px 10px}
+
+  footer{text-align:center;font-weight:600;opacity:.7;padding:10px 0 20px;position:relative;z-index:1}
+
+  .confetti{position:fixed;top:-20px;z-index:50;pointer-events:none;font-size:22px;animation:fall 2.4s ease-in forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+  @media (prefers-reduced-motion:reduce){.floaty,.confetti{display:none}}
+</style>
+</head>
+<body>
+
+<div class="floaty" aria-hidden="true" id="floaty"></div>
+
+<main class="wrap">
+
+  <section class="card hero" id="top">
+    <svg class="bow" id="bow" viewBox="0 0 200 120" role="button" aria-label="Tap the bow for confetti">
+      <path d="M100 60 C70 10, 15 5, 12 45 C9 85, 60 95, 100 60Z" fill="#e8334a"/>
+      <path d="M100 60 C130 10, 185 5, 188 45 C191 85, 140 95, 100 60Z" fill="#e8334a"/>
+      <path d="M100 60 C80 35, 40 30, 36 48 C33 66, 70 72, 100 60Z" fill="#c21f37" opacity=".5"/>
+      <path d="M100 60 C120 35, 160 30, 164 48 C167 66, 130 72, 100 60Z" fill="#c21f37" opacity=".5"/>
+      <path d="M92 66 L70 112 L86 106 L95 116 L100 70Z" fill="#c21f37"/>
+      <path d="M108 66 L130 112 L114 106 L105 116 L100 70Z" fill="#c21f37"/>
+      <ellipse cx="100" cy="60" rx="20" ry="18" fill="#e8334a" stroke="#c21f37" stroke-width="4"/>
+      <ellipse cx="94" cy="54" rx="6" ry="4" fill="#fff" opacity=".6"/>
+    </svg>
+    <div class="eyebrow">You're invited!</div>
+    <h1>Nora turns <span class="nine">9</span></h1>
+    <p class="sub">Come celebrate with bows, sweets, and all things pink! 🍓💕</p>
+    <p class="tapnote">(psst… tap the bow)</p>
+
+    <div class="details">
+      <div class="detail"><span class="ic">📅</span><div><b>Sunday, November 15</b><small>Nora's big day is the 16th!</small></div></div>
+      <div class="detail"><span class="ic">⏰</span><div><b>2:00 to 4:00 PM</b><small>Two hours of birthday fun</small></div></div>
+      <div class="detail"><span class="ic">🏡</span><div><b>At our house in Tempe</b><small>We'll text you the address after you RSVP</small></div></div>
+    </div>
+
+    <div class="count" id="count" aria-label="Countdown to the party">
+      <div><b id="d">0</b><small>days</small></div>
+      <div><b id="h">0</b><small>hours</small></div>
+      <div><b id="m">0</b><small>mins</small></div>
+      <div><b id="s">0</b><small>secs</small></div>
+    </div>
+    <div class="count-done" id="countDone">It's party time! 🎉</div>
+
+    <div class="row">
+      <a class="btn btn-red" href="#rsvp">RSVP 💌</a>
+      <button class="btn btn-soft" id="calBtn" type="button">📆 Add to calendar</button>
+    </div>
+  </section>
+
+  <section class="card" id="wishlist">
+    <svg class="h2-bow" viewBox="0 0 200 120" aria-hidden="true"><path d="M100 60 C70 10,15 5,12 45 C9 85,60 95,100 60Z M100 60 C130 10,185 5,188 45 C191 85,140 95,100 60Z" fill="#e8334a"/><ellipse cx="100" cy="60" rx="20" ry="18" fill="#c21f37"/></svg>
+    <h2>Nora's Wishlist</h2>
+    <p class="section-sub">Your presence is the best present! But if you'd like a few ideas…</p>
+    <div class="wish-grid" id="wishGrid"></div>
+    <div class="row" id="registryRow">
+      <a class="btn btn-soft" id="registryBtn" href="#" target="_blank" rel="noopener">🎁 See the full wishlist</a>
+    </div>
+  </section>
+
+  <section class="card" id="rsvp">
+    <h2>RSVP 💌</h2>
+    <p class="section-sub">Please let us know by Thursday, November 12</p>
+    <div class="rsvp-frame">
+      <iframe data-tally-src="https://tally.so/embed/7Xq6G6?hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy" height="420" title="RSVP for Nora's birthday"></iframe>
+    </div>
+  </section>
+
+  <footer>Made with 💕 for Nora</footer>
+</main>
+
+<nav class="bar">
+  <a class="btn btn-red" href="#rsvp">RSVP</a>
+  <a class="btn btn-soft" href="#wishlist">Wishlist</a>
+</nav>
+
+<script src="https://tally.so/widgets/embed.js" async onload="Tally.loadEmbeds()"></script>
+<script>
+/* ============ EDIT THESE ============ */
+const PARTY = {
+  title: "Nora's 9th Birthday Party",
+  start: "2026-11-15T14:00:00-07:00",
+  end:   "2026-11-15T16:00:00-07:00",
+  location: "Tempe, AZ (address sent after RSVP)"
+};
+const REGISTRY_URL = ""; // full Amazon/Target wishlist link
+const WISHLIST = [
+  // fav:true = big featured card
+  { emoji:"🎀", name:"Nora's #1 wish", note:"Featured item goes here", url:"#", fav:true },
+  { emoji:"🧸", name:"Wishlist item", note:"Short note", url:"#" },
+  { emoji:"🎨", name:"Wishlist item", note:"Short note", url:"#" },
+  { emoji:"📚", name:"Wishlist item", note:"Short note", url:"#" },
+  { emoji:"💍", name:"Wishlist item", note:"Short note", url:"#" }
+];
+/* ==================================== */
+
+const grid = document.getElementById("wishGrid");
+WISHLIST.forEach(w => {
+  const a = document.createElement("a");
+  a.className = "wish" + (w.fav ? " fav" : "");
+  a.href = w.url; a.target = "_blank"; a.rel = "noopener";
+  a.innerHTML = `<span class="emo">${w.emoji}</span><span>${w.fav ? '<span class="chip">⭐ Top pick</span><br>' : ""}<b>${w.name}</b><br><small>${w.note}</small></span>${w.fav ? "" : '<span class="go">View →</span>'}`;
+  grid.appendChild(a);
+});
+if (REGISTRY_URL) document.getElementById("registryBtn").href = REGISTRY_URL;
+else document.getElementById("registryRow").style.display = "none";
+
+const target = new Date(PARTY.start).getTime();
+const pad = n => String(n).padStart(2, "0");
+function tick(){
+  const diff = target - Date.now();
+  if (diff <= 0){
+    document.getElementById("count").style.display = "none";
+    document.getElementById("countDone").style.display = "block";
+    return;
+  }
+  document.getElementById("d").textContent = Math.floor(diff / 864e5);
+  document.getElementById("h").textContent = pad(Math.floor(diff / 36e5) % 24);
+  document.getElementById("m").textContent = pad(Math.floor(diff / 6e4) % 60);
+  document.getElementById("s").textContent = pad(Math.floor(diff / 1e3) % 60);
+}
+tick(); setInterval(tick, 1000);
+
+document.getElementById("calBtn").addEventListener("click", () => {
+  const f = iso => new Date(iso).toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//party//EN","BEGIN:VEVENT",
+    "UID:nora9-" + Date.now() + "@party","DTSTAMP:" + f(new Date().toISOString()),
+    "DTSTART:" + f(PARTY.start),"DTEND:" + f(PARTY.end),
+    "SUMMARY:" + PARTY.title,"LOCATION:" + PARTY.location,
+    "DESCRIPTION:RSVP and wishlist: " + location.href,"END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  const a = document.createElement("a"); a.href = url; a.download = "nora-birthday.ics";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+const bits = ["🎀","💕","🍓","⭐","🌸","💖","🍰"];
+function confetti(n = 28){
+  for (let i = 0; i < n; i++){
+    const c = document.createElement("span");
+    c.className = "confetti";
+    c.textContent = bits[Math.floor(Math.random() * bits.length)];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDelay = Math.random() * .6 + "s";
+    c.style.fontSize = 16 + Math.random() * 18 + "px";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3200);
+  }
+}
+document.getElementById("bow").addEventListener("click", () => confetti());
+setTimeout(() => confetti(18), 600);
+
+window.addEventListener("message", e => {
+  if (typeof e.data === "string" && e.data.includes("Tally.FormSubmitted")) confetti(40);
+});
+
+const fl = document.getElementById("floaty");
+for (let i = 0; i < 12; i++){
+  const sp = document.createElement("span");
+  sp.textContent = ["💕","🎀","🍓","🌸"][i % 4];
+  sp.style.left = Math.random() * 100 + "%";
+  sp.style.animationDuration = 14 + Math.random() * 14 + "s";
+  sp.style.animationDelay = -Math.random() * 20 + "s";
+  fl.appendChild(sp);
+}
+</script>
+</body>
+</html>
