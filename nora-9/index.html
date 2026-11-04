@@ -27,8 +27,11 @@
   html{scroll-behavior:smooth}
   body{
     font-family:"Quicksand",system-ui,sans-serif;color:var(--ink);
-    background-color:var(--cream);
-    background-image:repeating-linear-gradient(90deg,var(--butter) 0 34px,var(--cream) 34px 68px);
+    background-color:#fff;
+    background-image:
+      linear-gradient(90deg,rgba(255,184,207,.45) 50%,transparent 50%),
+      linear-gradient(rgba(255,184,207,.45) 50%,transparent 50%);
+    background-size:40px 40px;
     min-height:100vh;overflow-x:hidden;
     padding-bottom:calc(92px + env(safe-area-inset-bottom));
   }
@@ -59,7 +62,7 @@
   .hero > *{position:relative;z-index:1}
   .hero .row{margin-bottom:46px}
   .eyebrow{display:inline-block;font-family:"Fredoka";font-weight:600;font-size:.95rem;
-    background:var(--lav);border:var(--line);border-radius:999px;padding:4px 16px;box-shadow:2px 3px 0 var(--ink)}
+    background:var(--pink);border:var(--line);border-radius:999px;padding:4px 16px;box-shadow:2px 3px 0 var(--ink)}
   .title{font-size:clamp(2.7rem,13vw,3.8rem);line-height:1.05;margin:14px 0 2px;font-weight:700;
     -webkit-text-stroke:2.5px var(--ink);paint-order:stroke fill;letter-spacing:.01em}
   .title span{display:inline-block;transform:rotate(var(--r,0deg))}
@@ -79,17 +82,18 @@
 
   .details{display:grid;gap:10px;margin-top:18px;text-align:left}
   .detail{display:flex;gap:14px;align-items:center;border:var(--line);border-radius:20px;padding:12px 16px;box-shadow:2px 3px 0 var(--ink)}
-  .detail:nth-child(1){background:var(--sky)}
-  .detail:nth-child(2){background:var(--mint)}
-  .detail:nth-child(3){background:var(--peach)}
-  .detail .ic{font-size:1.6rem;flex:none}
+  .detail{background:#fff0f5}
+  .detail .ic{font-size:1.4rem;flex:none;width:46px;height:46px;border-radius:50%;border:var(--line);display:grid;place-items:center;background:#fff}
+  .detail:nth-child(1) .ic{background:var(--sky)}
+  .detail:nth-child(2) .ic{background:var(--lemon)}
+  .detail:nth-child(3) .ic{background:var(--mint)}
   .detail b{display:block;font-family:"Fredoka";font-size:1.08rem}
   .detail small{font-size:.9rem;font-weight:600}
 
   .count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
   .tile{border:var(--line);border-radius:18px;padding:10px 2px;text-align:center;box-shadow:2px 4px 0 var(--ink)}
-  .tile:nth-child(1){background:var(--pink)} .tile:nth-child(2){background:var(--lemon)}
-  .tile:nth-child(3){background:var(--lav)}  .tile:nth-child(4){background:var(--mint)}
+  .tile{background:#fff}
+  .tile:nth-child(odd){background:var(--pink)}
   .tile b{font-size:1.75rem;display:block;line-height:1}
   .tile small{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
   .count-done{display:none;margin-top:18px;font-family:"Fredoka";font-size:1.4rem}
@@ -99,16 +103,16 @@
     border:var(--line);box-shadow:3px 4px 0 var(--ink);transition:transform .12s, box-shadow .12s}
   .btn:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--ink)}
   .btn-main{background:var(--red);color:#fff}
-  .btn-alt{background:var(--lemon)}
+  .btn-alt{background:#fff}
   .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
 
   h2{font-size:1.8rem;text-align:center;margin-bottom:6px;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
-  .h-wish{color:var(--sky)} .h-rsvp{color:var(--pink)}
+  .h-wish,.h-rsvp{color:var(--pink)}
   .section-sub{text-align:center;font-weight:600;margin-bottom:18px}
 
   /* wishlist "shop shelf" */
-  .shelf{background:var(--butter);background-image:repeating-linear-gradient(90deg,var(--butter) 0 22px,#fff6d1 22px 44px)}
-  .shelf .sign{display:block;width:max-content;margin:-46px auto 14px;background:var(--mint);border:var(--line);border-radius:14px;
+  .shelf{background:#fff;background-image:repeating-linear-gradient(90deg,#fff 0 22px,#fff0f5 22px 44px)}
+  .shelf .sign{display:block;width:max-content;margin:-46px auto 14px;background:var(--pink);border:var(--line);border-radius:14px;
     padding:6px 18px;box-shadow:var(--pop);font-family:"Fredoka";font-weight:700;font-size:1.05rem;transform:rotate(-2deg)}
   .wish-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .wish{border:var(--line);border-radius:22px;padding:16px 10px;text-align:center;text-decoration:none;color:var(--ink);
@@ -123,6 +127,12 @@
   .wish.fav .emo{width:72px;height:72px;font-size:2.7rem;flex:none}
   .chip{display:inline-block;font-size:.72rem;background:var(--lemon);border:2px solid var(--ink);border-radius:999px;padding:1px 10px;margin-bottom:4px}
 
+  .list-note{display:block;margin:0 auto 20px;max-width:330px;transform:rotate(-2deg);background:#fff;padding:10px 10px 14px;
+    border:var(--line);border-radius:10px;box-shadow:var(--pop);position:relative}
+  .list-note::before{content:"";position:absolute;top:-14px;left:50%;width:90px;height:26px;margin-left:-45px;
+    background:rgba(255,184,207,.85);border:2px solid var(--ink);border-radius:4px;transform:rotate(3deg)}
+  .list-note img{width:100%;display:block;border-radius:4px}
+  .list-note figcaption{text-align:center;font-family:"Fredoka";font-weight:600;margin-top:8px;font-size:.95rem}
   .rsvp-frame{border-radius:20px;overflow:hidden;background:#fffaf0;border:var(--line);min-height:420px}
   .rsvp-frame iframe{width:100%;border:0;display:block}
 
@@ -161,11 +171,11 @@
 <svg class="bunting" viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden="true">
   <path d="M0 8 Q200 30 400 8" stroke="#4a3535" stroke-width="2.5" fill="none"/>
   <g stroke="#4a3535" stroke-width="2.5" stroke-linejoin="round">
-    <path d="M10 10 L38 15 L22 46Z" fill="#ffb8cf"/><path d="M50 16 L78 20 L62 50Z" fill="#ffe066"/>
-    <path d="M90 20 L118 23 L102 53Z" fill="#a8e6cf"/><path d="M130 23 L158 24 L143 55Z" fill="#a9d8ff"/>
-    <path d="M170 24 L198 25 L183 56Z" fill="#cbb8ff"/><path d="M202 25 L230 24 L216 56Z" fill="#ffcfa3"/>
-    <path d="M242 24 L270 23 L257 55Z" fill="#ffb8cf"/><path d="M282 23 L310 20 L298 53Z" fill="#ffe066"/>
-    <path d="M322 20 L350 16 L338 50Z" fill="#a8e6cf"/><path d="M362 15 L390 10 L378 46Z" fill="#a9d8ff"/>
+    <path d="M10 10 L38 15 L22 46Z" fill="#ffb8cf"/><path d="M50 16 L78 20 L62 50Z" fill="#fff"/>
+    <path d="M90 20 L118 23 L102 53Z" fill="#a9d8ff"/><path d="M130 23 L158 24 L143 55Z" fill="#fff"/>
+    <path d="M170 24 L198 25 L183 56Z" fill="#ff5a6e"/><path d="M202 25 L230 24 L216 56Z" fill="#fff"/>
+    <path d="M242 24 L270 23 L257 55Z" fill="#ffe066"/><path d="M282 23 L310 20 L298 53Z" fill="#fff"/>
+    <path d="M322 20 L350 16 L338 50Z" fill="#ffb8cf"/><path d="M362 15 L390 10 L378 46Z" fill="#fff"/>
   </g>
 </svg>
 
@@ -174,8 +184,8 @@
   <section class="card hero" id="top">
     <span class="eyebrow">✨ You're invited! ✨</span>
     <h1 class="title" aria-label="Nora turns 9">
-      <span style="color:#ff5a6e;--r:-4deg">N</span><span style="color:#ffe066;--r:3deg">o</span><span style="color:#a8e6cf;--r:-2deg">r</span><span style="color:#a9d8ff;--r:4deg">a</span>
-      <br><span style="color:#cbb8ff;--r:-3deg">turns</span><span class="badge" id="badge" role="button" aria-label="Tap for confetti"><i>9</i></span>
+      <span style="color:#ff5a6e;--r:-4deg">N</span><span style="color:#ffb8cf;--r:3deg">o</span><span style="color:#ff5a6e;--r:-2deg">r</span><span style="color:#ffb8cf;--r:4deg">a</span>
+      <br><span style="color:#fff;--r:-3deg">turns</span><span class="badge" id="badge" role="button" aria-label="Tap for confetti"><i>9</i></span>
     </h1>
     <div class="friends" aria-hidden="true">
       <svg><use href="#cloud"/></svg><svg><use href="#star"/></svg><svg><use href="#heart"/></svg><svg><use href="#drop"/></svg><svg><use href="#flower"/></svg>
@@ -206,7 +216,12 @@
   <section class="card shelf" id="wishlist" style="margin-top:44px">
     <span class="sign">🎁 Nora's Wish Shop</span>
     <h2 class="h-wish">Wishlist</h2>
-    <p class="section-sub">Your being there is the best gift! But if you'd like ideas…</p>
+    <p class="section-sub">Your being there is the best gift! But Nora wrote her own list, straight from the birthday girl:</p>
+    <figure class="list-note">
+      <img src="noras-list.jpg" alt="Nora's handwritten birthday list: American Girl doll, American Girl doll accessories, Our Generation doll and accessories, Mark Rober Build Box, Barbie science stuff, Hello Kitty stuff, lava lamps" loading="lazy">
+      <figcaption>Nora's official list ✏️</figcaption>
+    </figure>
+    <p class="section-sub">A few links to get you started:</p>
     <div class="wish-grid" id="wishGrid"></div>
     <div class="row" id="registryRow">
       <a class="btn btn-alt" id="registryBtn" href="#" target="_blank" rel="noopener">🛍️ See the full wishlist</a>
@@ -242,11 +257,13 @@ const PARTY = {
 const REGISTRY_URL = ""; // full Amazon/Target wishlist link
 const WISHLIST = [
   // fav:true = big featured card
-  { emoji:"🎀", name:"Nora's #1 wish", note:"Featured item goes here", url:"#", fav:true },
-  { emoji:"🧸", name:"Wishlist item", note:"Short note", url:"#" },
-  { emoji:"🎨", name:"Wishlist item", note:"Short note", url:"#" },
-  { emoji:"📚", name:"Wishlist item", note:"Short note", url:"#" },
-  { emoji:"💍", name:"Wishlist item", note:"Short note", url:"#" }
+  { emoji:"👧", name:"American Girl doll", note:"#1 on her list! Dolls and gift ideas", url:"https://www.americangirl.com/pages/holiday-gift-guide", fav:true },
+  { emoji:"👗", name:"American Girl accessories", note:"Outfits, pets, and play sets", url:"https://www.americangirl.com/pages/holiday-gift-guide" },
+  { emoji:"🎒", name:"Our Generation dolls", note:"Dolls and accessories at Target", url:"https://www.target.com/bp/our%20generation" },
+  { emoji:"🔧", name:"Mark Rober Build Box", note:"Gift a CrunchLabs box", url:"https://www.crunchlabs.com/products/gift-a-build-box-subscription" },
+  { emoji:"🔬", name:"Barbie science stuff", note:"Barbie Science Lab playset", url:"https://www.target.com/p/barbie-science-lab-playset-jlx33/-/A-94998539" },
+  { emoji:"🎀", name:"Hello Kitty stuff", note:"Anything from the Sanrio shop", url:"https://www.sanrio.com" },
+  { emoji:"🫧", name:"Lava lamps", note:"The classic glowing kind", url:"https://www.lampsplus.com/products/T9490" }
 ];
 /* ==================================== */
 
@@ -256,9 +273,10 @@ WISHLIST.forEach((w, i) => {
   const a = document.createElement("a");
   a.className = "wish" + (w.fav ? " fav" : "");
   a.href = w.url; a.target = "_blank"; a.rel = "noopener";
-  a.style.background = w.fav ? "#fff" : pastels[i % pastels.length];
+  a.style.background = w.fav ? "#ffd6e3" : (i % 2 ? "#fff" : "#fff0f5");
   a.style.setProperty("--tilt", w.fav ? "0deg" : (i % 2 ? "1.5deg" : "-1.5deg"));
   a.innerHTML = `<span class="emo">${w.emoji}</span><span>${w.fav ? '<span class="chip">⭐ Top pick</span><br>' : ""}<b>${w.name}</b><br><small>${w.note}</small></span>${w.fav ? "" : '<span class="go">View →</span>'}`;
+  a.querySelector(".emo").style.background = w.fav ? "#fff" : pastels[i % pastels.length];
   grid.appendChild(a);
 });
 if (REGISTRY_URL) document.getElementById("registryBtn").href = REGISTRY_URL;
