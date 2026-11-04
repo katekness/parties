@@ -7,130 +7,181 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>Nora Turns 9</title>
 <meta name="description" content="You're invited to Nora's 9th birthday party! Sunday, November 15, 2 to 4 PM.">
-<meta property="og:title" content="You're invited to Nora's 9th birthday! 🎀">
+<meta property="og:title" content="You're invited to Nora's 9th birthday! 🌈">
 <meta property="og:description" content="Sunday, November 15 · 2 to 4 PM · Tap to RSVP and see Nora's wishlist">
-<meta name="theme-color" content="#f9c5d5">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+<meta name="theme-color" content="#fff3c4">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌈</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --pink:#f9c5d5; --pink-soft:#fff0f5; --pink-mid:#f7a8c0;
-    --red:#e8334a; --red-deep:#c21f37; --ink:#5a2a3a; --white:#fff;
-    --yellow:#ffd65c; --shadow:0 10px 30px rgba(194,31,55,.15);
-    --r:28px;
+    --cream:#fffaf0; --butter:#fff1b8; --butter-deep:#ffe27a;
+    --pink:#ffb8cf; --red:#ff5a6e; --lav:#cbb8ff; --mint:#a8e6cf;
+    --sky:#a9d8ff; --peach:#ffcfa3; --lemon:#ffe066;
+    --ink:#4a3535; --white:#fff;
+    --line:3px solid var(--ink);
+    --pop:4px 5px 0 var(--ink);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
     font-family:"Quicksand",system-ui,sans-serif;color:var(--ink);
-    background-color:var(--pink-soft);
-    background-image:
-      linear-gradient(90deg,rgba(247,168,192,.35) 50%,transparent 50%),
-      linear-gradient(rgba(247,168,192,.35) 50%,transparent 50%);
-    background-size:44px 44px;
+    background-color:var(--cream);
+    background-image:repeating-linear-gradient(90deg,var(--butter) 0 34px,var(--cream) 34px 68px);
     min-height:100vh;overflow-x:hidden;
-    padding-bottom:calc(90px + env(safe-area-inset-bottom));
+    padding-bottom:calc(92px + env(safe-area-inset-bottom));
   }
-  h1,h2,h3,.btn,.chip{font-family:"Fredoka",sans-serif}
-  .wrap{max-width:560px;margin:0 auto;padding:20px 16px}
+  h1,h2,.btn,.chip,.tile b{font-family:"Fredoka",sans-serif}
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px 20px;position:relative;z-index:1}
 
+  /* bunting */
+  .bunting{display:block;width:100%;height:56px;position:relative;z-index:2}
+
+  /* floating friends */
   .floaty{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .floaty span{position:absolute;bottom:-40px;font-size:22px;opacity:.55;animation:rise linear infinite}
-  @keyframes rise{to{transform:translateY(-115vh) rotate(25deg)}}
+  .floaty svg{position:absolute;bottom:-70px;animation:rise linear infinite;opacity:.9}
+  @keyframes rise{to{transform:translateY(-120vh) rotate(18deg)}}
 
   .card{
-    position:relative;z-index:1;background:var(--white);border-radius:var(--r);
-    box-shadow:var(--shadow);padding:28px 22px;margin:18px 0;
-    border:3px solid var(--pink);
+    position:relative;background:var(--white);border-radius:30px;border:var(--line);
+    box-shadow:var(--pop);padding:28px 20px;margin:22px 0;
   }
 
-  .hero{text-align:center;padding-top:44px;margin-top:40px}
-  .hero .bow{position:absolute;top:-38px;left:50%;transform:translateX(-50%);width:120px;cursor:pointer;
-    filter:drop-shadow(0 6px 8px rgba(194,31,55,.25));transition:transform .2s}
-  .hero .bow:active{transform:translateX(-50%) scale(.9) rotate(-6deg)}
-  .eyebrow{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--red)}
-  .hero h1{font-size:clamp(2.6rem,12vw,3.6rem);line-height:1.05;margin:10px 0 4px;color:var(--red)}
-  .hero h1 .nine{display:inline-grid;place-items:center;width:1.3em;height:1.3em;border-radius:50%;
-    background:var(--red);color:#fff;transform:rotate(-8deg);margin-left:.08em;box-shadow:0 6px 0 var(--red-deep)}
-  .hero p.sub{font-size:1.1rem;font-weight:600;margin-top:14px}
-  .tapnote{font-size:.8rem;opacity:.65;margin-top:8px}
+  /* hero */
+  .hero{text-align:center;padding-top:30px;background:var(--white)}
+  .hero::after{ /* polka-dot tablecloth edge */
+    content:"";position:absolute;left:-3px;right:-3px;bottom:-3px;height:54px;border-radius:0 0 30px 30px;
+    border:var(--line);border-top:0;
+    background:radial-gradient(circle,var(--red) 4px,transparent 4.5px) 0 0/22px 22px, #fff;
+    z-index:-0;
+  }
+  .hero > *{position:relative;z-index:1}
+  .hero .row{margin-bottom:46px}
+  .eyebrow{display:inline-block;font-family:"Fredoka";font-weight:600;font-size:.95rem;
+    background:var(--lav);border:var(--line);border-radius:999px;padding:4px 16px;box-shadow:2px 3px 0 var(--ink)}
+  .title{font-size:clamp(2.7rem,13vw,3.8rem);line-height:1.05;margin:14px 0 2px;font-weight:700;
+    -webkit-text-stroke:2.5px var(--ink);paint-order:stroke fill;letter-spacing:.01em}
+  .title span{display:inline-block;transform:rotate(var(--r,0deg))}
+  .badge{display:inline-grid;place-items:center;width:1.45em;height:1.45em;margin-left:.1em;vertical-align:middle;
+    background:conic-gradient(var(--pink) 0 60deg,var(--lemon) 0 120deg,var(--mint) 0 180deg,var(--sky) 0 240deg,var(--lav) 0 300deg,var(--peach) 0);
+    border-radius:50%;border:var(--line);box-shadow:var(--pop);transform:rotate(-8deg);cursor:pointer}
+  .badge i{font-style:normal;background:#fff;border:var(--line);border-radius:50%;width:1.05em;height:1.05em;
+    display:grid;place-items:center;font-size:.8em;-webkit-text-stroke:0;color:var(--red)}
+  .sub{font-size:1.08rem;font-weight:700;margin-top:14px}
+  .tapnote{font-size:.8rem;opacity:.7;margin-top:6px;font-weight:600}
+  .friends{display:flex;justify-content:center;gap:10px;margin:14px 0 4px}
+  .friends svg{width:52px;height:52px;cursor:pointer;transition:transform .2s}
+  .friends svg:active{transform:scale(.85) rotate(-10deg)}
+  .friends svg:nth-child(odd){animation:bob 2.6s ease-in-out infinite}
+  .friends svg:nth-child(even){animation:bob 2.6s ease-in-out infinite .6s}
+  @keyframes bob{50%{transform:translateY(-6px)}}
 
-  .details{display:grid;gap:10px;margin-top:22px;text-align:left}
-  .detail{display:flex;gap:14px;align-items:center;background:var(--pink-soft);border-radius:18px;padding:12px 16px}
+  .details{display:grid;gap:10px;margin-top:18px;text-align:left}
+  .detail{display:flex;gap:14px;align-items:center;border:var(--line);border-radius:20px;padding:12px 16px;box-shadow:2px 3px 0 var(--ink)}
+  .detail:nth-child(1){background:var(--sky)}
+  .detail:nth-child(2){background:var(--mint)}
+  .detail:nth-child(3){background:var(--peach)}
   .detail .ic{font-size:1.6rem;flex:none}
-  .detail b{display:block;font-family:"Fredoka";font-size:1.05rem}
-  .detail small{font-size:.9rem;opacity:.8}
+  .detail b{display:block;font-family:"Fredoka";font-size:1.08rem}
+  .detail small{font-size:.9rem;font-weight:600}
 
-  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
-  .count div{background:var(--red);color:#fff;border-radius:16px;padding:10px 4px;text-align:center;box-shadow:0 5px 0 var(--red-deep)}
-  .count b{font-family:"Fredoka";font-size:1.7rem;display:block;line-height:1}
-  .count small{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-  .count-done{display:none;margin-top:18px;font-family:"Fredoka";font-size:1.4rem;color:var(--red)}
+  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+  .tile{border:var(--line);border-radius:18px;padding:10px 2px;text-align:center;box-shadow:2px 4px 0 var(--ink)}
+  .tile:nth-child(1){background:var(--pink)} .tile:nth-child(2){background:var(--lemon)}
+  .tile:nth-child(3){background:var(--lav)}  .tile:nth-child(4){background:var(--mint)}
+  .tile b{font-size:1.75rem;display:block;line-height:1}
+  .tile small{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .count-done{display:none;margin-top:18px;font-family:"Fredoka";font-size:1.4rem}
 
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
-    font-size:1.05rem;font-weight:600;border-radius:999px;padding:14px 22px;text-decoration:none;
-    transition:transform .15s, box-shadow .15s}
-  .btn:active{transform:translateY(3px)}
-  .btn-red{background:var(--red);color:#fff;box-shadow:0 5px 0 var(--red-deep)}
-  .btn-red:active{box-shadow:0 2px 0 var(--red-deep)}
-  .btn-soft{background:var(--pink-soft);color:var(--red);border:2px solid var(--pink)}
-  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--ink);
+    font-size:1.05rem;font-weight:600;border-radius:999px;padding:12px 20px;text-decoration:none;
+    border:var(--line);box-shadow:3px 4px 0 var(--ink);transition:transform .12s, box-shadow .12s}
+  .btn:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .btn-main{background:var(--red);color:#fff}
+  .btn-alt{background:var(--lemon)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
 
-  h2{font-size:1.7rem;color:var(--red);text-align:center;margin-bottom:6px}
-  .section-sub{text-align:center;font-weight:600;opacity:.8;margin-bottom:18px}
-  .h2-bow{width:46px;display:block;margin:0 auto 6px}
+  h2{font-size:1.8rem;text-align:center;margin-bottom:6px;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+  .h-wish{color:var(--sky)} .h-rsvp{color:var(--pink)}
+  .section-sub{text-align:center;font-weight:600;margin-bottom:18px}
 
-  .wish-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .wish{background:var(--pink-soft);border-radius:20px;padding:16px 12px;text-align:center;text-decoration:none;color:var(--ink);
-    border:2px solid transparent;transition:transform .15s,border-color .15s;display:flex;flex-direction:column;align-items:center;gap:6px}
-  .wish:hover{border-color:var(--pink-mid)}
-  .wish:active{transform:scale(.97)}
-  .wish .emo{font-size:2.2rem}
+  /* wishlist "shop shelf" */
+  .shelf{background:var(--butter);background-image:repeating-linear-gradient(90deg,var(--butter) 0 22px,#fff6d1 22px 44px)}
+  .shelf .sign{display:block;width:max-content;margin:-46px auto 14px;background:var(--mint);border:var(--line);border-radius:14px;
+    padding:6px 18px;box-shadow:var(--pop);font-family:"Fredoka";font-weight:700;font-size:1.05rem;transform:rotate(-2deg)}
+  .wish-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .wish{border:var(--line);border-radius:22px;padding:16px 10px;text-align:center;text-decoration:none;color:var(--ink);
+    box-shadow:3px 4px 0 var(--ink);display:flex;flex-direction:column;align-items:center;gap:6px;
+    transform:rotate(var(--tilt,0deg));transition:transform .15s}
+  .wish:hover,.wish:active{transform:rotate(0) scale(1.03)}
+  .wish .emo{font-size:2.3rem;background:#fff;border:var(--line);border-radius:50%;width:62px;height:62px;display:grid;place-items:center}
   .wish b{font-family:"Fredoka";font-size:1rem;line-height:1.2}
-  .wish small{font-size:.8rem;opacity:.75}
-  .wish .go{margin-top:auto;font-family:"Fredoka";font-size:.85rem;color:var(--red)}
-  .wish.fav{grid-column:1/-1;flex-direction:row;text-align:left;gap:14px;background:#fff7d6;border-color:var(--yellow)}
-  .wish.fav .emo{font-size:2.6rem}
-  .chip{display:inline-block;font-size:.7rem;background:var(--yellow);color:var(--ink);border-radius:999px;padding:2px 10px;margin-bottom:4px}
+  .wish small{font-size:.8rem;font-weight:600}
+  .wish .go{margin-top:auto;font-family:"Fredoka";font-size:.85rem;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:2px 10px}
+  .wish.fav{grid-column:1/-1;flex-direction:row;text-align:left;gap:14px;padding:16px}
+  .wish.fav .emo{width:72px;height:72px;font-size:2.7rem;flex:none}
+  .chip{display:inline-block;font-size:.72rem;background:var(--lemon);border:2px solid var(--ink);border-radius:999px;padding:1px 10px;margin-bottom:4px}
 
-  .rsvp-frame{border-radius:20px;overflow:hidden;background:#fff5f8;min-height:420px}
+  .rsvp-frame{border-radius:20px;overflow:hidden;background:#fffaf0;border:var(--line);min-height:420px}
   .rsvp-frame iframe{width:100%;border:0;display:block}
 
   .bar{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    border-top:3px solid var(--pink);display:flex;gap:10px;justify-content:center}
-  .bar .btn{flex:1;max-width:260px;padding:12px 10px}
+    background:rgba(255,250,240,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-top:var(--line);display:flex;gap:12px;justify-content:center}
+  .bar .btn{flex:1;max-width:240px;padding:11px 10px}
 
-  footer{text-align:center;font-weight:600;opacity:.7;padding:10px 0 20px;position:relative;z-index:1}
+  footer{text-align:center;font-weight:700;padding:6px 0 18px}
 
-  .confetti{position:fixed;top:-20px;z-index:50;pointer-events:none;font-size:22px;animation:fall 2.4s ease-in forwards}
-  @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
-  @media (prefers-reduced-motion:reduce){.floaty,.confetti{display:none}}
+  .confetti{position:fixed;top:-24px;z-index:50;pointer-events:none;font-size:22px;animation:fall 2.4s ease-in forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.25}}
+  @media (prefers-reduced-motion:reduce){.floaty,.confetti{display:none}.friends svg{animation:none}}
 </style>
 </head>
 <body>
 
+<!-- original kawaii friends (reused via <use>) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="face">
+      <circle cx="-7" cy="0" r="2.6" fill="#4a3535"/><circle cx="7" cy="0" r="2.6" fill="#4a3535"/>
+      <path d="M-3.5 4 Q0 7.5 3.5 4" stroke="#4a3535" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="-12" cy="5" rx="3.5" ry="2.2" fill="#ff8fa8" opacity=".7"/><ellipse cx="12" cy="5" rx="3.5" ry="2.2" fill="#ff8fa8" opacity=".7"/>
+    </g>
+    <symbol id="cloud" viewBox="0 0 64 64"><path d="M16 46 C6 46 4 34 13 31 C12 20 26 16 31 24 C35 15 50 17 50 29 C60 29 61 46 50 46Z" fill="#fff" stroke="#4a3535" stroke-width="3" stroke-linejoin="round"/><use href="#face" transform="translate(32 36) scale(.85)"/></symbol>
+    <symbol id="star" viewBox="0 0 64 64"><path d="M32 6 L39 23 L57 24 L43 36 L48 54 L32 44 L16 54 L21 36 L7 24 L25 23Z" fill="#ffe066" stroke="#4a3535" stroke-width="3" stroke-linejoin="round"/><use href="#face" transform="translate(32 33) scale(.75)"/></symbol>
+    <symbol id="heart" viewBox="0 0 64 64"><path d="M32 54 C10 40 6 26 14 18 C21 11 29 15 32 21 C35 15 43 11 50 18 C58 26 54 40 32 54Z" fill="#cbb8ff" stroke="#4a3535" stroke-width="3" stroke-linejoin="round"/><use href="#face" transform="translate(32 31) scale(.75)"/></symbol>
+    <symbol id="drop" viewBox="0 0 64 64"><path d="M32 6 C44 24 52 32 52 41 C52 52 43 58 32 58 C21 58 12 52 12 41 C12 32 20 24 32 6Z" fill="#a9d8ff" stroke="#4a3535" stroke-width="3" stroke-linejoin="round"/><use href="#face" transform="translate(32 42) scale(.75)"/></symbol>
+    <symbol id="flower" viewBox="0 0 64 64"><g fill="#ffb8cf" stroke="#4a3535" stroke-width="3"><circle cx="32" cy="15" r="10"/><circle cx="48" cy="27" r="10"/><circle cx="42" cy="46" r="10"/><circle cx="22" cy="46" r="10"/><circle cx="16" cy="27" r="10"/></g><circle cx="32" cy="33" r="13" fill="#ffe066" stroke="#4a3535" stroke-width="3"/><use href="#face" transform="translate(32 33) scale(.6)"/></symbol>
+  </defs>
+</svg>
+
 <div class="floaty" aria-hidden="true" id="floaty"></div>
+
+<svg class="bunting" viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 8 Q200 30 400 8" stroke="#4a3535" stroke-width="2.5" fill="none"/>
+  <g stroke="#4a3535" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M10 10 L38 15 L22 46Z" fill="#ffb8cf"/><path d="M50 16 L78 20 L62 50Z" fill="#ffe066"/>
+    <path d="M90 20 L118 23 L102 53Z" fill="#a8e6cf"/><path d="M130 23 L158 24 L143 55Z" fill="#a9d8ff"/>
+    <path d="M170 24 L198 25 L183 56Z" fill="#cbb8ff"/><path d="M202 25 L230 24 L216 56Z" fill="#ffcfa3"/>
+    <path d="M242 24 L270 23 L257 55Z" fill="#ffb8cf"/><path d="M282 23 L310 20 L298 53Z" fill="#ffe066"/>
+    <path d="M322 20 L350 16 L338 50Z" fill="#a8e6cf"/><path d="M362 15 L390 10 L378 46Z" fill="#a9d8ff"/>
+  </g>
+</svg>
 
 <main class="wrap">
 
   <section class="card hero" id="top">
-    <svg class="bow" id="bow" viewBox="0 0 200 120" role="button" aria-label="Tap the bow for confetti">
-      <path d="M100 60 C70 10, 15 5, 12 45 C9 85, 60 95, 100 60Z" fill="#e8334a"/>
-      <path d="M100 60 C130 10, 185 5, 188 45 C191 85, 140 95, 100 60Z" fill="#e8334a"/>
-      <path d="M100 60 C80 35, 40 30, 36 48 C33 66, 70 72, 100 60Z" fill="#c21f37" opacity=".5"/>
-      <path d="M100 60 C120 35, 160 30, 164 48 C167 66, 130 72, 100 60Z" fill="#c21f37" opacity=".5"/>
-      <path d="M92 66 L70 112 L86 106 L95 116 L100 70Z" fill="#c21f37"/>
-      <path d="M108 66 L130 112 L114 106 L105 116 L100 70Z" fill="#c21f37"/>
-      <ellipse cx="100" cy="60" rx="20" ry="18" fill="#e8334a" stroke="#c21f37" stroke-width="4"/>
-      <ellipse cx="94" cy="54" rx="6" ry="4" fill="#fff" opacity=".6"/>
-    </svg>
-    <div class="eyebrow">You're invited!</div>
-    <h1>Nora turns <span class="nine">9</span></h1>
-    <p class="sub">Come celebrate with bows, sweets, and all things pink! 🍓💕</p>
-    <p class="tapnote">(psst… tap the bow)</p>
+    <span class="eyebrow">✨ You're invited! ✨</span>
+    <h1 class="title" aria-label="Nora turns 9">
+      <span style="color:#ff5a6e;--r:-4deg">N</span><span style="color:#ffe066;--r:3deg">o</span><span style="color:#a8e6cf;--r:-2deg">r</span><span style="color:#a9d8ff;--r:4deg">a</span>
+      <br><span style="color:#cbb8ff;--r:-3deg">turns</span><span class="badge" id="badge" role="button" aria-label="Tap for confetti"><i>9</i></span>
+    </h1>
+    <div class="friends" aria-hidden="true">
+      <svg><use href="#cloud"/></svg><svg><use href="#star"/></svg><svg><use href="#heart"/></svg><svg><use href="#drop"/></svg><svg><use href="#flower"/></svg>
+    </div>
+    <p class="sub">Come celebrate with all of Nora's favorite friends! 🌈</p>
+    <p class="tapnote">(tap the little friends!)</p>
 
     <div class="details">
       <div class="detail"><span class="ic">📅</span><div><b>Sunday, November 15</b><small>Nora's big day is the 16th!</small></div></div>
@@ -139,31 +190,31 @@
     </div>
 
     <div class="count" id="count" aria-label="Countdown to the party">
-      <div><b id="d">0</b><small>days</small></div>
-      <div><b id="h">0</b><small>hours</small></div>
-      <div><b id="m">0</b><small>mins</small></div>
-      <div><b id="s">0</b><small>secs</small></div>
+      <div class="tile"><b id="d">0</b><small>days</small></div>
+      <div class="tile"><b id="h">0</b><small>hours</small></div>
+      <div class="tile"><b id="m">0</b><small>mins</small></div>
+      <div class="tile"><b id="s">0</b><small>secs</small></div>
     </div>
     <div class="count-done" id="countDone">It's party time! 🎉</div>
 
     <div class="row">
-      <a class="btn btn-red" href="#rsvp">RSVP 💌</a>
-      <button class="btn btn-soft" id="calBtn" type="button">📆 Add to calendar</button>
+      <a class="btn btn-main" href="#rsvp">RSVP 💌</a>
+      <button class="btn btn-alt" id="calBtn" type="button">📆 Add to calendar</button>
     </div>
   </section>
 
-  <section class="card" id="wishlist">
-    <svg class="h2-bow" viewBox="0 0 200 120" aria-hidden="true"><path d="M100 60 C70 10,15 5,12 45 C9 85,60 95,100 60Z M100 60 C130 10,185 5,188 45 C191 85,140 95,100 60Z" fill="#e8334a"/><ellipse cx="100" cy="60" rx="20" ry="18" fill="#c21f37"/></svg>
-    <h2>Nora's Wishlist</h2>
-    <p class="section-sub">Your presence is the best present! But if you'd like a few ideas…</p>
+  <section class="card shelf" id="wishlist" style="margin-top:44px">
+    <span class="sign">🎁 Nora's Wish Shop</span>
+    <h2 class="h-wish">Wishlist</h2>
+    <p class="section-sub">Your being there is the best gift! But if you'd like ideas…</p>
     <div class="wish-grid" id="wishGrid"></div>
     <div class="row" id="registryRow">
-      <a class="btn btn-soft" id="registryBtn" href="#" target="_blank" rel="noopener">🎁 See the full wishlist</a>
+      <a class="btn btn-alt" id="registryBtn" href="#" target="_blank" rel="noopener">🛍️ See the full wishlist</a>
     </div>
   </section>
 
   <section class="card" id="rsvp">
-    <h2>RSVP 💌</h2>
+    <h2 class="h-rsvp">RSVP 💌</h2>
     <p class="section-sub">Please let us know by Thursday, November 12</p>
     <div class="rsvp-frame">
       <iframe data-tally-src="https://tally.so/embed/7Xq6G6?hideTitle=1&transparentBackground=1&dynamicHeight=1"
@@ -171,12 +222,12 @@
     </div>
   </section>
 
-  <footer>Made with 💕 for Nora</footer>
+  <footer>Made with 💛💜💙 for Nora</footer>
 </main>
 
 <nav class="bar">
-  <a class="btn btn-red" href="#rsvp">RSVP</a>
-  <a class="btn btn-soft" href="#wishlist">Wishlist</a>
+  <a class="btn btn-main" href="#rsvp">RSVP</a>
+  <a class="btn btn-alt" href="#wishlist">Wishlist</a>
 </nav>
 
 <script src="https://tally.so/widgets/embed.js" async onload="Tally.loadEmbeds()"></script>
@@ -199,11 +250,14 @@ const WISHLIST = [
 ];
 /* ==================================== */
 
+const pastels = ["#ffb8cf","#a9d8ff","#a8e6cf","#cbb8ff","#ffcfa3","#ffe066"];
 const grid = document.getElementById("wishGrid");
-WISHLIST.forEach(w => {
+WISHLIST.forEach((w, i) => {
   const a = document.createElement("a");
   a.className = "wish" + (w.fav ? " fav" : "");
   a.href = w.url; a.target = "_blank"; a.rel = "noopener";
+  a.style.background = w.fav ? "#fff" : pastels[i % pastels.length];
+  a.style.setProperty("--tilt", w.fav ? "0deg" : (i % 2 ? "1.5deg" : "-1.5deg"));
   a.innerHTML = `<span class="emo">${w.emoji}</span><span>${w.fav ? '<span class="chip">⭐ Top pick</span><br>' : ""}<b>${w.name}</b><br><small>${w.note}</small></span>${w.fav ? "" : '<span class="go">View →</span>'}`;
   grid.appendChild(a);
 });
@@ -239,7 +293,7 @@ document.getElementById("calBtn").addEventListener("click", () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
-const bits = ["🎀","💕","🍓","⭐","🌸","💖","🍰"];
+const bits = ["💛","💜","💙","💚","🩷","⭐","🌈","☁️","🌸"];
 function confetti(n = 28){
   for (let i = 0; i < n; i++){
     const c = document.createElement("span");
@@ -252,7 +306,8 @@ function confetti(n = 28){
     setTimeout(() => c.remove(), 3200);
   }
 }
-document.getElementById("bow").addEventListener("click", () => confetti());
+document.getElementById("badge").addEventListener("click", () => confetti());
+document.querySelectorAll(".friends svg").forEach(s => s.addEventListener("click", () => confetti(14)));
 setTimeout(() => confetti(18), 600);
 
 window.addEventListener("message", e => {
@@ -260,13 +315,19 @@ window.addEventListener("message", e => {
 });
 
 const fl = document.getElementById("floaty");
-for (let i = 0; i < 12; i++){
-  const sp = document.createElement("span");
-  sp.textContent = ["💕","🎀","🍓","🌸"][i % 4];
-  sp.style.left = Math.random() * 100 + "%";
-  sp.style.animationDuration = 14 + Math.random() * 14 + "s";
-  sp.style.animationDelay = -Math.random() * 20 + "s";
-  fl.appendChild(sp);
+const kinds = ["cloud","star","heart","drop","flower"];
+for (let i = 0; i < 10; i++){
+  const ns = "http://www.w3.org/2000/svg";
+  const s = document.createElementNS(ns, "svg");
+  const u = document.createElementNS(ns, "use");
+  u.setAttribute("href", "#" + kinds[i % kinds.length]);
+  s.appendChild(u);
+  const size = 30 + Math.random() * 22;
+  s.setAttribute("width", size); s.setAttribute("height", size);
+  s.style.left = Math.random() * 92 + "%";
+  s.style.animationDuration = 16 + Math.random() * 14 + "s";
+  s.style.animationDelay = -Math.random() * 24 + "s";
+  fl.appendChild(s);
 }
 </script>
 </body>
