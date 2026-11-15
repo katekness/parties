@@ -122,10 +122,10 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
 #s-friend{background:repeating-conic-gradient(from 0deg at 50% 55%,#ffd1ea 0 10deg,#fff0f8 10deg 20deg)}
 #fr-wrap{position:absolute;left:50%;top:570px;transform:translate(-50%,-50%)}
 #fr-wrap img,#fr-sil{position:absolute;left:0;top:0;width:100%;height:100%}
-#fr-sil{background:#2a1760;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;transition:opacity .25s}
-#fr-img{opacity:0;transition:opacity .25s}
-#fr-wrap.revealed #fr-img{opacity:1}
-#fr-wrap.revealed #fr-sil{opacity:0}
+#fr-sil{background:#2a1760;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+#fr-img{opacity:0}
+#fr-wrap.revealed #fr-img{opacity:1;transition:opacity .25s}
+#fr-wrap.revealed #fr-sil{opacity:0;transition:opacity .25s}
 #fr-wrap.revealed{animation:frBounce .8s cubic-bezier(.2,1.6,.4,1)}
 @keyframes frBounce{0%{transform:translate(-50%,-50%) scale(.85)}60%{transform:translate(-50%,-50%) scale(1.07)}100%{transform:translate(-50%,-50%) scale(1)}}
 #fr-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:24}
@@ -585,8 +585,11 @@ function memReveal(){
 /* ---------- FRIEND ---------- */
 function frRender(){
   var f=FRIENDS[G.fr.idx], sz=SIZES[f.id], r=Math.min(1100/sz[0],720/sz[1]);
-  var w=$("fr-wrap"); w.className=""; w.style.width=sz[0]*r+"px"; w.style.height=sz[1]*r+"px";
-  $("fr-img").src=A(f.id);
+  var w=$("fr-wrap"), img=$("fr-img"); w.style.visibility="hidden"; w.className=""; img.style.opacity=0; void w.offsetWidth;
+  w.style.width=sz[0]*r+"px"; w.style.height=sz[1]*r+"px";
+  img.src=A(f.id); var want=G.fr.idx;
+  function show(){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ if(G.fr.idx!==want) return; img.style.opacity=""; w.style.visibility=""; }); }); }
+  if(img.decode) img.decode().then(show,show); else show();
   var sil=$("fr-sil"); sil.style.webkitMaskImage="url("+A(f.id)+")"; sil.style.maskImage="url("+A(f.id)+")";
   $("fr-count").textContent="FRIEND "+(G.fr.idx+1)+" OF "+FRIENDS.length;
   $("fr-name").classList.add("hidden");
