@@ -174,6 +174,29 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
 #cup-text div:nth-child(2){animation-delay:-.8s}
 @keyframes cupWob{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.06)}}
 
+
+/* ---------- PHOTO SCREENSAVER ---------- */
+#s-photos{background:radial-gradient(rgba(255,255,255,.45) 7px,transparent 8px) 0 0/64px 64px,linear-gradient(180deg,#ffb6dd 0%,#d9c4ff 55%,#a9ecff 100%)}
+#ph-title{position:absolute;left:0;right:0;top:64px;text-align:center;font-size:66px;z-index:6}
+#ph-stage{position:absolute;inset:0}
+.pframe{position:absolute;background:#fffaf0;border:9px solid var(--ink);box-shadow:0 14px 0 var(--ink),0 22px 40px rgba(42,23,96,.25);padding:20px 20px 74px;transform:rotate(var(--r))}
+.pframe .pimg{position:relative;width:100%;height:100%;overflow:hidden;border:5px solid var(--ink);background:#ffe3f1}
+.pframe .pimg img{width:100%;height:100%;object-fit:cover;display:block;animation:kb 9s ease-in-out both}
+.pframe .pimg.spr{background:radial-gradient(circle,#fff6fb 30%,#ffd1ea 100%)} .pframe .pimg.spr img{object-fit:contain;padding:30px}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.1)}}
+.pframe .cap{position:absolute;left:0;right:0;bottom:20px;text-align:center;font-family:"PS2P";font-size:24px;color:var(--ink);letter-spacing:2px}
+.pframe .tape{position:absolute;top:-28px;left:50%;width:160px;height:46px;transform:translateX(-50%) rotate(var(--t));background:repeating-linear-gradient(45deg,#ff9fd0 0 12px,#ffe0ef 12px 24px);border:5px solid var(--ink);z-index:2}
+.pframe .peek{position:absolute;width:170px;bottom:-50px;z-index:3;animation:bob 1.6s ease-in-out infinite}
+.pframe .peek.r{right:-80px}.pframe .peek.l{left:-80px}
+.pframe.in{animation:frameIn 1s cubic-bezier(.2,1.3,.4,1) both}
+.pframe.out{animation:frameOut .75s ease-in forwards}
+@keyframes frameIn{from{transform:translateY(-1250px) rotate(var(--r0))}to{transform:rotate(var(--r))}}
+@keyframes frameOut{to{transform:translateY(1250px) rotate(calc(var(--r) * -4));opacity:.6}}
+#ph-empty{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:24px;z-index:6}
+#toast{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:300;background:var(--ink);color:#fff;font-weight:700;padding:10px 18px;border-radius:999px;font-size:16px;max-width:92vw;text-align:center}
+.phrow{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.phrow button{font-family:"Pixelify";font-weight:700;font-size:16px;background:#fff;border:4px solid var(--ink);border-radius:14px;box-shadow:0 5px 0 var(--ink);padding:8px 14px;color:var(--ink);cursor:pointer}
+
 /* ---------- pairing badge (TV) ---------- */
 #pairbadge{position:absolute;right:26px;bottom:24px;z-index:60;background:var(--cream);border:8px solid var(--ink);border-radius:22px;padding:16px 26px;box-shadow:0 10px 0 var(--ink);text-align:center}
 #pairbadge .c{font-family:"PS2P";font-size:64px;letter-spacing:10px;color:var(--hot);margin-top:8px}
@@ -245,6 +268,12 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
    <div id="home-nine" class="px" style="font-family:PS2P">9</div>
    <div id="home-sparkles"></div>
   </div>
+  <!-- PHOTO SCREENSAVER -->
+  <div class="screen hidden" id="s-photos">
+   <div id="ph-title" class="px rainbow"></div>
+   <div id="ph-stage"></div>
+   <div id="ph-empty" class="px sm hidden">Add photos: hold the screen, then tap 📷 Add photos</div>
+  </div>
   <!-- SELECT -->
   <div class="screen hidden" id="s-select">
    <div id="sel-title" class="px">CHOOSE A GAME!</div>
@@ -305,6 +334,8 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
  </div>
 </div>
 
+<input type="file" id="phfile" accept="image/*" multiple style="display:none">
+<div id="toast" class="hidden"></div>
 <div id="taphint" class="hidden">Tap anywhere for host controls</div>
 <div id="panel" class="hidden ctl"></div>
 <div id="hostapp" class="hidden ctl"></div>
@@ -321,8 +352,9 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
  <div id="gestures" class="hidden"><b>Mirror mode controls</b>
   <div><i>Tap</i> found it · reveal · pick the box or capsule · start a game</div>
   <div><i>Swipe →</i> next round &nbsp; <i>Swipe ←</i> replay round</div>
-  <div><i>Swipe ↑</i> game list &nbsp; <i>Swipe ↓</i> birthday screen</div>
+  <div><i>Swipe ↑</i> game list &nbsp; <i>Swipe ↓</i> birthday screen (again: photos)</div>
   <div><i>Hold</i> full menu: Cupcake Time, hints, settings, sound</div></div>
+ <div class="phrow hidden" id="bootphotos"><button id="bootaddph">📷 Screensaver photos on this device: <span class="phcount">0</span> · Add</button><button id="bootclrph">Remove all</button></div>
  <div id="hostjoin" class="hidden"><input id="codein" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters"><button class="bootbtn primary" style="width:auto" id="codego"><b>Pair</b></button></div>
 </div>
 
@@ -444,9 +476,10 @@ function clearOverlays(){
 }
 function showScreen(name){
   clearOverlays(); FX.clear();
-  ["home","select","hunt","memory","friend","boxes","claw","cupcake"].forEach(function(s){ $("s-"+s).classList.toggle("hidden",s!==name); });
+  ["home","photos","select","hunt","memory","friend","boxes","claw","cupcake"].forEach(function(s){ $("s-"+s).classList.toggle("hidden",s!==name); });
   G.screen=name; G.phase="";
-  FX.setAmbient(name==="home"?60:(name==="cupcake"?40:0));
+  FX.setAmbient(name==="home"?60:(name==="cupcake"?40:(name==="photos"?28:0)));
+  if(PH.timer){ clearInterval(PH.timer); PH.timer=null; }
   clearInterval(homeSparkTimer); clearInterval(cupSparkTimer);
   if(name==="home") homeSparkTimer=setInterval(function(){ sparkles($("home-sparkles"),150+Math.random()*1620,120+Math.random()*820,1,10); },1700);
   if(name==="cupcake") cupSparkTimer=setInterval(function(){ sparkles($("cup-sparkles"),900+Math.random()*900,120+Math.random()*700,2,80); },900);
@@ -479,6 +512,73 @@ function buildHome(){
   function shade(h){ var n=parseInt(h.slice(1),16); var r=(n>>16)*.78|0,g=((n>>8)&255)*.78|0,b=(n&255)*.78|0; return "rgb("+r+","+g+","+b+")"; }
 }
 function goHome(){ flow(); showScreen("home"); }
+/* ---------- PHOTO SCREENSAVER (photos stay on this device only) ---------- */
+var PH={list:[],idx:0,timer:null,cycle:0,friendI:0};
+var MONTHS=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+function phCaption(name){ var m=/(20\d\d)[-_ ]?(\d\d)[-_ ]?(\d\d)/.exec(name||""); if(!m) return ""; var mo=+m[2]; if(mo<1||mo>12) return ""; return MONTHS[mo-1]+" "+m[1]; }
+function idb(){ return new Promise(function(res,rej){ try{ var r=indexedDB.open("nora9photos",1);
+  r.onupgradeneeded=function(){ r.result.createObjectStore("p",{keyPath:"id"}); }; r.onsuccess=function(){ res(r.result); }; r.onerror=function(){ rej(r.error); }; }catch(e){ rej(e); } }); }
+function idbReq(q){ return new Promise(function(res,rej){ q.onsuccess=function(){ res(q.result); }; q.onerror=function(){ rej(q.error); }; }); }
+async function phLoad(){
+  try{ var db=await idb(); var all=await idbReq(db.transaction("p").objectStore("p").getAll());
+    PH.list.forEach(function(p){ URL.revokeObjectURL(p.url); });
+    PH.list=shuffle(all.map(function(r){ return {id:r.id,url:URL.createObjectURL(r.blob),w:r.w,h:r.h,cap:r.cap}; })); PH.idx=0;
+  }catch(e){ console.warn("photos unavailable",e); }
+  phCounts();
+}
+function phCounts(){ var n=PH.list.length; document.querySelectorAll(".phcount").forEach(function(el){ el.textContent=n; }); if(G.screen==="photos") $("ph-empty").classList.toggle("hidden",n>0); }
+function toast(msg,ms){ var t=$("toast"); t.textContent=msg; t.classList.remove("hidden"); clearTimeout(toast.t); if(ms) toast.t=setTimeout(function(){ t.classList.add("hidden"); },ms); }
+function fileToImage(file){ return new Promise(function(res,rej){ var u=URL.createObjectURL(file), im=new Image(); im.onload=function(){ res(im); }; im.onerror=function(){ URL.revokeObjectURL(u); rej(new Error("decode")); }; im.src=u; }); }
+async function phAddFiles(files){
+  files=[].slice.call(files||[]); if(!files.length) return; var ok=0, bad=0, db;
+  try{ db=await idb(); }catch(e){ toast("This browser can’t save photos (private browsing?)",5000); return; }
+  for(var i=0;i<files.length;i++){
+    toast("Adding photos… "+(i+1)+" of "+files.length);
+    try{ var im=await fileToImage(files[i]); var w=im.naturalWidth, h=im.naturalHeight, r=Math.min(1,1600/Math.max(w,h));
+      var cv=document.createElement("canvas"); cv.width=Math.round(w*r); cv.height=Math.round(h*r); cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height); URL.revokeObjectURL(im.src);
+      var blob=await new Promise(function(res){ cv.toBlob(res,"image/jpeg",0.85); }); if(!blob) throw new Error("blob");
+      var rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),blob:blob,w:cv.width,h:cv.height,cap:phCaption(files[i].name)};
+      await idbReq(db.transaction("p","readwrite").objectStore("p").put(rec)); ok++;
+    }catch(e){ bad++; }
+  }
+  await phLoad(); toast("Added "+ok+" photo"+(ok===1?"":"s")+(bad?" ("+bad+" couldn’t be read)":"")+" · "+PH.list.length+" total",4000);
+  if(MODE==="mirror") renderPanel(); pushStatus();
+}
+async function phClear(){ if(!confirm("Remove all screensaver photos from this device?")) return;
+  try{ var db=await idb(); await idbReq(db.transaction("p","readwrite").objectStore("p").clear()); }catch(e){}
+  await phLoad(); toast("Photos removed from this device",3000); if(MODE==="mirror") renderPanel(); pushStatus(); }
+function phPick(){ var f=$("phfile"); f.value=""; f.click(); }
+
+function goPhotos(){ flow(); showScreen("photos"); $("ph-stage").innerHTML=""; PH.cycle=0; phCounts(); phNext(); PH.timer=setInterval(phNext,8500); pushStatus(); }
+function phNext(){
+  if(G.screen!=="photos") return;
+  var st=$("ph-stage");
+  [].slice.call(st.children).forEach(function(f){ if(f.classList.contains("out")) return; f.classList.remove("in"); f.classList.add("out"); setTimeout(function(){ f.remove(); },800); });
+  var items=[], n, i;
+  if(PH.list.length){
+    var peekAhead=[]; for(i=0;i<3;i++) peekAhead.push(PH.list[(PH.idx+i)%PH.list.length]);
+    var portraits=peekAhead.filter(function(p){ return p.h>=p.w; }).length;
+    n = Math.min(PH.list.length, (portraits===3 && PH.cycle%3!==2) ? 3 : 2);
+    for(i=0;i<n;i++){ items.push(PH.list[PH.idx%PH.list.length]); PH.idx++; if(PH.idx>=PH.list.length){ PH.idx=0; shuffle(PH.list); } }
+  } else {
+    n=3; for(i=0;i<3;i++){ var f=FRIENDS[(PH.friendI++)%FRIENDS.length]; items.push({sprite:f.id,w:3,h:4,cap:f.name.toUpperCase()}); }
+  }
+  PH.cycle++;
+  var AX=60, AW=1800, AY=185, AH=860, colW=AW/n, padX=58, padY=112, maxW=colW-padX-70, maxH=AH-padY-60;
+  items.forEach(function(p,k){
+    var a=p.w/p.h, iw=Math.min(maxW,maxH*a), ih=iw/a, fw=iw+padX, fh=ih+padY;
+    var cx=AX+colW*(k+0.5)+(Math.random()*40-20), cy=AY+AH/2+(Math.random()*50-25);
+    var rot=((k%2?1:-1)*(1.5+Math.random()*4)).toFixed(1);
+    var fr=document.createElement("div"); fr.className="pframe in";
+    fr.style.left=(cx-fw/2)+"px"; fr.style.top=(cy-fh/2)+"px"; fr.style.width=fw+"px"; fr.style.height=fh+"px";
+    fr.style.setProperty("--r",rot+"deg"); fr.style.setProperty("--r0",(rot*-3)+"deg"); fr.style.animationDelay=(0.35+k*0.28)+"s";
+    var inner = p.sprite ? '<div class="pimg spr"><img src="'+A(p.sprite)+'"></div>' : '<div class="pimg"><img src="'+p.url+'"></div>';
+    var peek = (k===(PH.cycle%n)) ? '<img class="peek '+(k%2?'l':'r')+'" src="'+A(FRIENDS[(PH.cycle*7+k)%FRIENDS.length].id)+'">' : '';
+    fr.innerHTML='<div class="tape" style="--t:'+(Math.random()*10-5).toFixed(1)+'deg"></div>'+inner+'<div class="cap">'+esc(p.cap||"♥ NORA ♥")+'</div>'+peek;
+    st.appendChild(fr);
+  });
+}
+
 
 /* ---------- SELECT ---------- */
 function buildSelect(){
@@ -688,7 +788,7 @@ function replay(){ var s=G.screen; if(s==="hunt") huntRound(false); else if(s===
 function reveal(){ var s=G.screen; if(s==="hunt") huntShow(false); else if(s==="memory") memReveal(); else if(s==="friend") frReveal(); else if(s==="boxes") boxReveal(); }
 function runCmd(c){
   switch(c.t){
-    case "home": goHome(); break; case "select": goSelect(); break; case "game": startGame(c.g); break;
+    case "home": goHome(); break; case "photos": goPhotos(); break; case "select": goSelect(); break; case "game": startGame(c.g); break;
     case "next": nextRound(); break; case "reveal": reveal(); break; case "replay": replay(); break; case "cupcake": goCupcake(); break;
     case "hint": huntHint(); break; case "found": huntShow(true); break;
     case "memSecs": G.mem.secs=Math.max(3,Math.min(60,c.v|0)); break;
@@ -703,7 +803,7 @@ function runCmd(c){
 /* ================= STATUS (what the host sees) ================= */
 function statusObj(){
   var h=G.hunt, p=PLACE[h.scene][h.place];
-  return {screen:G.screen,phase:G.phase,music:Snd.musicOn,sfx:Snd.sfxOn,
+  return {screen:G.screen,phase:G.phase,music:Snd.musicOn,sfx:Snd.sfxOn,photos:PH.list.length,
     hunt:{round:h.round,item:ITEMS[h.item].short,scene:h.scene==="bakery"?"Bakery":"Bedroom",where:p?p.desc:""},
     mem:{secs:G.mem.secs,round:G.mem.round,missing:(G.mem.missing>=0&&G.mem.set.length)?MEMPOOL[G.mem.set[G.mem.missing]].name:"",fresh:(G.mem.fresh||[]).map(function(id){return MEMPOOL[id].name})},
     fr:{n:G.fr.idx+1,of:FRIENDS.length,name:FRIENDS[G.fr.idx].name},
@@ -771,12 +871,15 @@ function controlsHTML(s, isHostApp){
   if(game) h+=gameHTML(s,isHostApp);
   else if(s.screen==="cupcake") h+='<div class="info">Cupcake Time is up! Tap Home when you’re done.</div>';
   else if(s.screen==="select") h+='<div class="info">Kids see the game list. Pick a game below.</div>';
+  else if(s.screen==="photos") h+='<div class="info">Photo screensaver is up ('+(s.photos||0)+' photos on the TV device).</div>';
   else h+='<div class="info">Birthday screen is up. Pick a game whenever you’re ready.</div>';
-  h+='<div class="lab">Go to</div><div class="row">'+btn({t:"home"},"🏠 Home")+btn({t:"select"},"🎮 Game list")+btn({t:"cupcake"},"🧁 Cupcake Time","cup")+'</div>';
+  h+='<div class="lab">Go to</div><div class="row">'+btn({t:"home"},"🏠 Birthday")+btn({t:"photos"},"🖼 Photo screensaver")+btn({t:"select"},"🎮 Game list")+btn({t:"cupcake"},"🧁 Cupcake Time","cup")+'</div>';
   h+='<div class="row">';
   GAMES.forEach(function(g,i){ h+=btn({t:"game",g:g.id},(i+1)+'. '+esc(isHostApp?g.name:g.short),s.screen===g.id?'on':''); });
   h+='</div>';
   h+='<div class="lab">Sound</div><div class="row">'+btn({t:"music",v:!s.music},'♪ Music '+(s.music?'ON':'OFF'),s.music?'on':'')+btn({t:"sfx",v:!s.sfx},'🔔 Sounds '+(s.sfx?'ON':'OFF'),s.sfx?'on':'')+'</div>';
+  if(!isHostApp) h+='<div class="lab">Screensaver photos on this device: '+(s.photos||0)+'</div><div class="row"><button id="addph">📷 Add photos</button><button id="clrph">Remove all</button></div>';
+  else h+='<div class="info">Screensaver photos live on the TV device. Add them on its start screen.</div>';
   return h;
 }
 function canReveal(s){ if(s.screen==="hunt") return s.phase==="search"; if(s.screen==="memory") return s.phase==="guess"; if(s.screen==="friend") return s.phase==="guess"; if(s.screen==="boxes") return s.box.picked>=0&&!s.box.won; return false; }
@@ -823,7 +926,7 @@ function gameHTML(s,isHostApp){
 function phaseText(s){ var m={intro:"Showing intro",countdown:"Counting down",search:"Kids are searching",found:"Found!",shown:"Revealed",study:"Memorizing…",cover:"Covering table",guess:"Kids are guessing",revealed:"Revealed",vote:"Kids are voting",picked:"Box picked, tap Open",missed:"Empty box, pick again",won:"Bow found",choose:"Kids are voting",grab:"Claw is grabbing…",party:""}; return m[s.phase]||""; }
 
 function wireControls(root, isHostApp, closeAfter){
-  root.onclick=function(e){ if(e.target.closest("#exitbtn")){ e.stopPropagation(); location.reload(); return; } var b=e.target.closest("button[data-c]"); if(!b||b.disabled) return; e.stopPropagation(); var c=JSON.parse(b.getAttribute("data-c")); send(c);
+  root.onclick=function(e){ if(e.target.closest("#addph")){ e.stopPropagation(); phPick(); return; } if(e.target.closest("#clrph")){ e.stopPropagation(); phClear(); return; } if(e.target.closest("#exitbtn")){ e.stopPropagation(); location.reload(); return; } var b=e.target.closest("button[data-c]"); if(!b||b.disabled) return; e.stopPropagation(); var c=JSON.parse(b.getAttribute("data-c")); send(c);
     var keepOpen={memSecs:1,boxHide:1,boxPick:1,clawShuffle:1,music:1,sfx:1,select:1};
     if(closeAfter && !keepOpen[c.t]) closePanel(); };
   root.onchange=function(e){ var t=e.target;
@@ -875,12 +978,12 @@ function gestureSwipe(dir){
   if(dir==="right") send(inGame?{t:"next"}:{t:"select"});
   else if(dir==="left"){ if(inGame) send({t:"replay"}); }
   else if(dir==="up") send({t:"select"});
-  else if(dir==="down") send({t:"home"});
+  else if(dir==="down") send(G.screen==="home"?{t:"photos"}:{t:"home"});
 }
 function gestureTap(cx,cy,target){
   var sx=(cx-FIT.x)/FIT.s, sy=(cy-FIT.y)/FIT.s, x=sx/K, y=sy/K, i;   // stage px -> scene px
   var sc=G.screen, ph=G.phase;
-  if(sc==="home"){ send({t:"select"}); return; }
+  if(sc==="home"||sc==="photos"){ send({t:"select"}); return; }
   if(sc==="select"){ var tile=target&&target.closest?target.closest(".tile"):null; if(tile){ var idx=[].indexOf.call($("sel-grid").children,tile); if(idx>=0) send({t:"game",g:GAMES[idx].id}); } return; }
   if(sc==="hunt"){ if(ph==="search") send({t:"found"}); return; }
   if(sc==="memory"||sc==="friend"){ if(ph==="guess") send({t:"reveal"}); return; }
@@ -933,15 +1036,19 @@ function startMode(mode){
 }
 
 /* build static parts */
-FX.init(); buildHome(); buildSelect(); boxBuild(); clawBuild(); capReset(); clawRender(); fit();
+FX.init(); buildHome(); buildSelect();
+$("ph-title").innerHTML=rainbowHTML("HAPPY BIRTHDAY, NORA!");
+$("phfile").addEventListener("change",function(){ phAddFiles(this.files); });
+$("bootaddph").onclick=function(){ phPick(); }; $("bootclrph").onclick=function(){ phClear(); };
+phLoad(); boxBuild(); clawBuild(); capReset(); clawRender(); fit();
 preload(function(failed){
-  $("loadbar").classList.add("hidden"); $("bootbtns").classList.remove("hidden"); $("gestures").classList.remove("hidden");
+  $("loadbar").classList.add("hidden"); $("bootbtns").classList.remove("hidden"); $("gestures").classList.remove("hidden"); $("bootphotos").classList.remove("hidden");
   $("bootmsg").innerHTML = failed.length? ("Some art didn’t load: "+failed.map(esc).join(", ")) : "How are we playing today?";
   var h=(location.hash||"").replace("#","");
   if(h==="mirror"||h==="tv"){ /* still need a tap for audio: highlight that button */ var b=document.querySelector('[data-mode="'+h+'"]'); if(b) b.classList.add("primary"); }
 });
 document.querySelectorAll(".bootbtn[data-mode]").forEach(function(b){ b.onclick=function(){ var m=b.getAttribute("data-mode");
-  if(m==="host"){ $("bootbtns").classList.add("hidden"); $("gestures").classList.add("hidden"); $("hostjoin").classList.remove("hidden"); $("bootmsg").textContent="Type the code shown on the TV"; $("codein").focus(); return; }
+  if(m==="host"){ $("bootbtns").classList.add("hidden"); $("gestures").classList.add("hidden"); $("bootphotos").classList.add("hidden"); $("hostjoin").classList.remove("hidden"); $("bootmsg").textContent="Type the code shown on the TV"; $("codein").focus(); return; }
   startMode(m); }; });
 $("codego").onclick=function(){ var c=$("codein").value.trim().toUpperCase().replace(/[^A-Z0-9]/g,""); if(c.length!==4){ $("bootmsg").textContent="The code has 4 letters or numbers"; return; }
   PAIRCODE=c; Net.open(c,"host").then(function(ok){ startMode("host"); if(Net.named) Net.named.presence({role:"host"}); renderHost(); }); };
