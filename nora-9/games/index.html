@@ -801,7 +801,7 @@ function contextHTML(s,isHostApp){
 function phaseText(s){ var m={intro:"Showing intro",countdown:"Counting down",search:"Kids are searching",found:"Found!",shown:"Revealed",study:"Memorizing…",cover:"Covering table",guess:"Kids are guessing",revealed:"Revealed",vote:"Kids are voting",picked:"Box picked, tap Open",missed:"Empty box, pick again",won:"Bow found",choose:"Kids are voting",grab:"Claw is grabbing…",party:""}; return m[s.phase]||""; }
 
 function wireControls(root, isHostApp, closeAfter){
-  root.onclick=function(e){ var b=e.target.closest("button[data-c]"); if(!b||b.disabled) return; e.stopPropagation(); var c=JSON.parse(b.getAttribute("data-c")); send(c);
+  root.onclick=function(e){ if(e.target.closest("#exitbtn")){ e.stopPropagation(); location.reload(); return; } var b=e.target.closest("button[data-c]"); if(!b||b.disabled) return; e.stopPropagation(); var c=JSON.parse(b.getAttribute("data-c")); send(c);
     var keepOpen={memSecs:1,boxHide:1,boxPick:1,clawShuffle:1,music:1,sfx:1,select:1};
     if(closeAfter && !keepOpen[c.t]) closePanel(); };
   root.onchange=function(e){ var t=e.target;
@@ -814,13 +814,13 @@ var panelOpen=false;
 function openPanel(){ panelOpen=true; renderPanel(); $("panel").classList.remove("hidden"); $("taphint").classList.add("hidden"); }
 function closePanel(){ panelOpen=false; $("panel").classList.add("hidden"); }
 function renderPanel(){ if(!panelOpen) return; var p=$("panel"); var focused=document.activeElement&&p.contains(document.activeElement)&&document.activeElement.tagName==="INPUT"; if(focused) return;
-  var st=p.scrollTop; p.innerHTML='<div class="ph"><b>Host menu</b><button class="resume" id="fsbtn" style="background:#fff;color:var(--ink)">⛶ Full screen</button><button class="resume" id="resumebtn">▶ Resume</button></div>'+controlsHTML(statusObj(),false); p.scrollTop=st;
+  var st=p.scrollTop; p.innerHTML='<div class="ph"><b>Host menu</b><button class="resume" id="exitbtn" style="background:#fff;color:var(--ink)">⇦ Switch mode</button><button class="resume" id="fsbtn" style="background:#fff;color:var(--ink)">⛶ Full screen</button><button class="resume" id="resumebtn">▶ Resume</button></div>'+controlsHTML(statusObj(),false); p.scrollTop=st;
   $("resumebtn").onclick=function(e){ e.stopPropagation(); closePanel(); };
   $("fsbtn").onclick=function(e){ e.stopPropagation(); goFull(); }; }
 
 /* ---------- host app (phone in split mode) ---------- */
 function renderHost(){ if(MODE!=="host") return; var r=$("hostapp"); var f=document.activeElement; if(f&&r.contains(f)&&(f.tagName==="INPUT"||f.tagName==="SELECT")) return;
-  var st=r.scrollTop; r.innerHTML='<h2>NORA’S PARTY · HOST</h2><div id="hoststat"></div>'+controlsHTML(Net.tvStatus,true); r.scrollTop=st; renderHostStatusLine(); }
+  var st=r.scrollTop; r.innerHTML='<div style="display:flex;align-items:center;gap:8px"><h2 style="flex:1">NORA’S PARTY · HOST</h2><button id="exitbtn" style="flex:0 0 auto;min-height:36px;font-size:14px">⇦ Switch mode</button></div><div id="hoststat"></div>'+controlsHTML(Net.tvStatus,true); r.scrollTop=st; renderHostStatusLine(); }
 function renderHostStatusLine(){ var el=$("hoststat"); if(!el) return; var ok=Net.tvSeenAt&&Date.now()-Net.tvSeenAt<15000; var pend=Object.keys(Net.pending).length;
   el.className=ok?"":"bad"; el.textContent=ok?("Paired with TV "+PAIRCODE+(pend?" · sending…":" · connected")):("Looking for TV "+PAIRCODE+"… keep the TV View open"); }
 
