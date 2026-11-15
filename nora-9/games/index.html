@@ -16,7 +16,7 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
 .hidden{display:none!important}
 
 /* ---------- viewport & stage ---------- */
-#viewport{position:fixed;inset:0;overflow:hidden;background:
+#viewport{position:fixed;inset:0;overflow:hidden;touch-action:none;-webkit-touch-callout:none;background:
   repeating-linear-gradient(45deg,#2a1760 0 18px,#24134f 18px 36px)}
 #stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;background:#ffd6ec}
 .screen{position:absolute;inset:0;overflow:hidden}
@@ -181,7 +181,9 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
 #pairbadge.ok .c{font-size:28px;color:#1d9e6b;letter-spacing:2px}
 
 /* ---------- BOOT ---------- */
-#boot{position:fixed;inset:0;z-index:200;background:linear-gradient(180deg,#ffb6dd,#c9b2ff);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow:auto}
+#boot{position:fixed;inset:0;z-index:200;background:linear-gradient(180deg,#ffb6dd,#c9b2ff);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+#boot:before,#boot:after{content:"";margin:auto}
+#boot{padding:20px;overflow:auto}
 #boot h1{font-family:"PS2P";font-size:clamp(18px,3.4vw,40px);color:#fff;text-shadow:3px 3px 0 var(--ink),-3px 3px 0 var(--ink),3px -3px 0 var(--ink),-3px -3px 0 var(--ink),0 6px 0 var(--ink);text-align:center;margin:0 0 6px}
 #boot p{font-size:clamp(15px,2.2vw,22px);font-weight:700;text-align:center;margin:6px 0 18px;max-width:760px}
 .bootbtns{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:980px}
@@ -191,6 +193,8 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
 .bootbtn:active{transform:translateY(5px);box-shadow:0 2px 0 var(--ink)}
 #loadbar{margin-top:18px;width:300px;height:18px;border:4px solid var(--ink);border-radius:10px;background:#fff;overflow:hidden}
 #loadbar div{height:100%;width:0;background:var(--pink);transition:width .2s}
+#gestures{margin-top:16px;background:rgba(255,255,255,.75);border:4px solid var(--ink);border-radius:16px;padding:10px 16px;font-size:clamp(14px,2vw,18px);max-width:640px;line-height:1.45}
+#gestures i{font-style:normal;font-weight:700;background:var(--yel);padding:0 6px;border-radius:6px}
 #hostjoin{display:flex;gap:10px;margin-top:10px;justify-content:center}
 #hostjoin input{font-family:"PS2P";font-size:24px;width:180px;text-transform:uppercase;padding:10px;border:5px solid var(--ink);border-radius:14px;text-align:center}
 
@@ -310,10 +314,15 @@ img{image-rendering:auto;-webkit-user-drag:none;pointer-events:none}
  <p id="bootmsg">Loading the party…</p>
  <div id="loadbar"><div></div></div>
  <div class="bootbtns hidden" id="bootbtns">
-  <button class="bootbtn primary" data-mode="mirror"><b>Mirror my phone</b><span>Simplest. Open this on your phone, mirror it to the TV, tap the screen for host controls.</span></button>
+  <button class="bootbtn primary" data-mode="mirror"><b>Mirror my phone</b><span>Simplest. Mirror your phone to the TV and control the game by tapping and swiping the picture.</span></button>
   <button class="bootbtn" data-mode="tv"><b>This is the TV</b><span>Opens the clean TV view and shows a short pairing code.</span></button>
   <button class="bootbtn" data-mode="host"><b>Host on my phone</b><span>Controls a separate TV View using its code.</span></button>
  </div>
+ <div id="gestures" class="hidden"><b>Mirror mode controls</b>
+  <div><i>Tap</i> found it · reveal · pick the box or capsule · start a game</div>
+  <div><i>Swipe →</i> next round &nbsp; <i>Swipe ←</i> replay round</div>
+  <div><i>Swipe ↑</i> game list &nbsp; <i>Swipe ↓</i> birthday screen</div>
+  <div><i>Hold</i> full menu: Cupcake Time, hints, settings, sound</div></div>
  <div id="hostjoin" class="hidden"><input id="codein" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters"><button class="bootbtn primary" style="width:auto" id="codego"><b>Pair</b></button></div>
 </div>
 
@@ -805,7 +814,7 @@ var panelOpen=false;
 function openPanel(){ panelOpen=true; renderPanel(); $("panel").classList.remove("hidden"); $("taphint").classList.add("hidden"); }
 function closePanel(){ panelOpen=false; $("panel").classList.add("hidden"); }
 function renderPanel(){ if(!panelOpen) return; var p=$("panel"); var focused=document.activeElement&&p.contains(document.activeElement)&&document.activeElement.tagName==="INPUT"; if(focused) return;
-  var st=p.scrollTop; p.innerHTML='<div class="ph"><b>Host controls</b><button class="resume" id="fsbtn" style="background:#fff;color:var(--ink)">⛶ Full screen</button><button class="resume" id="resumebtn">▶ Resume</button></div>'+controlsHTML(statusObj(),false); p.scrollTop=st;
+  var st=p.scrollTop; p.innerHTML='<div class="ph"><b>Host menu</b><button class="resume" id="fsbtn" style="background:#fff;color:var(--ink)">⛶ Full screen</button><button class="resume" id="resumebtn">▶ Resume</button></div>'+controlsHTML(statusObj(),false); p.scrollTop=st;
   $("resumebtn").onclick=function(e){ e.stopPropagation(); closePanel(); };
   $("fsbtn").onclick=function(e){ e.stopPropagation(); goFull(); }; }
 
@@ -815,8 +824,62 @@ function renderHost(){ if(MODE!=="host") return; var r=$("hostapp"); var f=docum
 function renderHostStatusLine(){ var el=$("hoststat"); if(!el) return; var ok=Net.tvSeenAt&&Date.now()-Net.tvSeenAt<15000; var pend=Object.keys(Net.pending).length;
   el.className=ok?"":"bad"; el.textContent=ok?("Paired with TV "+PAIRCODE+(pend?" · sending…":" · connected")):("Looking for TV "+PAIRCODE+"… keep the TV View open"); }
 
+/* ================= GESTURES (mirror mode) =================
+   Tap        = the obvious action (found it / reveal / pick the box or capsule / start a game)
+   Swipe right = next round (on home or the game list: go to the game list)
+   Swipe left  = replay this round
+   Swipe up    = game list      Swipe down = home
+   Hold        = full host menu (Cupcake Time, hints, settings, sound) */
+function setupGestures(){
+  var vp=$("viewport"), st=null, holdT=null;
+  vp.addEventListener("pointerdown",function(e){
+    if(panelOpen){ closePanel(); st=null; return; }
+    st={x:e.clientX,y:e.clientY,t:Date.now(),used:false,target:e.target};
+    clearTimeout(holdT); holdT=setTimeout(function(){ if(st){ st.used=true; openPanel(); } },650);
+  });
+  vp.addEventListener("pointermove",function(e){ if(st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>14) clearTimeout(holdT); });
+  vp.addEventListener("pointercancel",function(){ clearTimeout(holdT); st=null; });
+  vp.addEventListener("pointerup",function(e){
+    clearTimeout(holdT); if(!st||st.used){ st=null; return; }
+    var dx=e.clientX-st.x, dy=e.clientY-st.y, s0=st; st=null; var min=Math.max(50,Math.min(window.innerWidth,window.innerHeight)*0.12);
+    if(Math.abs(dx)>min && Math.abs(dx)>Math.abs(dy)*1.3){ gestureSwipe(dx>0?"right":"left"); return; }
+    if(Math.abs(dy)>min && Math.abs(dy)>Math.abs(dx)*1.3){ gestureSwipe(dy>0?"down":"up"); return; }
+    if(Math.abs(dx)<20&&Math.abs(dy)<20) gestureTap(e.clientX,e.clientY,s0.target);
+  });
+  vp.addEventListener("contextmenu",function(e){ e.preventDefault(); });
+}
+function gestureSwipe(dir){
+  var inGame=["hunt","memory","friend","boxes","claw"].indexOf(G.screen)>=0;
+  if(dir==="right") send(inGame?{t:"next"}:{t:"select"});
+  else if(dir==="left"){ if(inGame) send({t:"replay"}); }
+  else if(dir==="up") send({t:"select"});
+  else if(dir==="down") send({t:"home"});
+}
+function gestureTap(cx,cy,target){
+  var sx=(cx-FIT.x)/FIT.s, sy=(cy-FIT.y)/FIT.s, x=sx/K, y=sy/K, i;   // stage px -> scene px
+  var sc=G.screen, ph=G.phase;
+  if(sc==="home"){ send({t:"select"}); return; }
+  if(sc==="select"){ var tile=target&&target.closest?target.closest(".tile"):null; if(tile){ var idx=[].indexOf.call($("sel-grid").children,tile); if(idx>=0) send({t:"game",g:GAMES[idx].id}); } return; }
+  if(sc==="hunt"){ if(ph==="search") send({t:"found"}); return; }
+  if(sc==="memory"||sc==="friend"){ if(ph==="guess") send({t:"reveal"}); return; }
+  if(sc==="boxes"){
+    if(G.box.won) return;
+    for(i=0;i<3;i++){ if(Math.abs(x-BOXX[i])<BOXW*0.62 && y>BOXB-420 && y<BOXB+60){
+      if(G.box.opened[i]) return; send({t:"boxPick",v:i}); setTimeout(function(){ send({t:"reveal"}); },700); return; } }
+    return;
+  }
+  if(sc==="claw"){
+    if(ph!=="choose") return;
+    var best=-1,bd=1e9; for(i=0;i<3;i++){ var d=Math.abs(x-CAPX[i]); if(d<bd){bd=d;best=i;} }
+    if(bd<CAPSZ*0.9 && y>CAPB-CAPSZ*1.8) send({t:"clawPick",v:best});
+    return;
+  }
+}
+
 /* ================= BOOT / MODES ================= */
+var FIT={s:1,x:0,y:0};
 function fit(){ var vw=window.innerWidth, vh=window.innerHeight, s=Math.min(vw/1920,vh/1080); var st=$("stage");
+  FIT={s:s,x:(vw-1920*s)/2,y:(vh-1080*s)/2};
   st.style.transform="translate("+((vw-1920*s)/2)+"px,"+((vh-1080*s)/2)+"px) scale("+s+")"; }
 window.addEventListener("resize",fit);
 function goFull(){ var d=document.documentElement; try{ (d.requestFullscreen||d.webkitRequestFullscreen).call(d).catch(function(){}); }catch(e){} }
@@ -835,8 +898,7 @@ function startMode(mode){
   Snd.init(); keepAwake(); goFull(); fit(); goHome();
   if(mode==="mirror"){
     wireControls($("panel"),false,true);
-    $("viewport").addEventListener("click",function(){ if(!panelOpen) openPanel(); });
-    var th=$("taphint"); th.classList.remove("hidden"); setTimeout(function(){ th.style.opacity=0; setTimeout(function(){th.classList.add("hidden")},1000); },6000);
+    setupGestures();
     statusListeners.push(function(){ renderPanel(); });
   } else if(mode==="tv"){
     try{ PAIRCODE=localStorage.getItem("nora9code")||""; }catch(e){}
@@ -851,13 +913,13 @@ function startMode(mode){
 /* build static parts */
 FX.init(); buildHome(); buildSelect(); memBuild(); boxBuild(); clawBuild(); capReset(); clawRender(); fit();
 preload(function(failed){
-  $("loadbar").classList.add("hidden"); $("bootbtns").classList.remove("hidden");
+  $("loadbar").classList.add("hidden"); $("bootbtns").classList.remove("hidden"); $("gestures").classList.remove("hidden");
   $("bootmsg").innerHTML = failed.length? ("Some art didn’t load: "+failed.map(esc).join(", ")) : "How are we playing today?";
   var h=(location.hash||"").replace("#","");
   if(h==="mirror"||h==="tv"){ /* still need a tap for audio: highlight that button */ var b=document.querySelector('[data-mode="'+h+'"]'); if(b) b.classList.add("primary"); }
 });
 document.querySelectorAll(".bootbtn[data-mode]").forEach(function(b){ b.onclick=function(){ var m=b.getAttribute("data-mode");
-  if(m==="host"){ $("bootbtns").classList.add("hidden"); $("hostjoin").classList.remove("hidden"); $("bootmsg").textContent="Type the code shown on the TV"; $("codein").focus(); return; }
+  if(m==="host"){ $("bootbtns").classList.add("hidden"); $("gestures").classList.add("hidden"); $("hostjoin").classList.remove("hidden"); $("bootmsg").textContent="Type the code shown on the TV"; $("codein").focus(); return; }
   startMode(m); }; });
 $("codego").onclick=function(){ var c=$("codein").value.trim().toUpperCase().replace(/[^A-Z0-9]/g,""); if(c.length!==4){ $("bootmsg").textContent="The code has 4 letters or numbers"; return; }
   PAIRCODE=c; Net.open(c,"host").then(function(ok){ startMode("host"); if(Net.named) Net.named.presence({role:"host"}); renderHost(); }); };
