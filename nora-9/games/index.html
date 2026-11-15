@@ -362,18 +362,16 @@ function shuffle(a){for(var i=a.length-1;i>0;i--){var j=rand(i+1);var t=a[i];a[i
 
 /* ================= AUDIO ================= */
 var Snd = {
-  ctx:null, music:null, win:null, musicOn:true, sfxOn:true, started:false,
+  ctx:null, music:null, musicOn:true, sfxOn:true, started:false, tracks:["assets/music1.mp3","assets/music2.mp3"], ti:0,
   init:function(){
     if(this.started) return; this.started=true;
     try{ this.ctx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
-    this.music = new Audio("assets/music.mp3"); this.music.loop=true; this.music.volume=0.2;
-    this.win = new Audio("assets/win.mp3"); this.win.volume=0.28;
-    var self=this; this.win.onended=function(){ if(self.musicOn) self.music.play().catch(function(){}); };
+    var self=this; this.music = new Audio(this.tracks[0]); this.music.volume=0.2;
+    this.music.onended=function(){ self.ti=(self.ti+1)%self.tracks.length; self.music.src=self.tracks[self.ti]; if(self.musicOn) self.music.play().catch(function(){}); };
     if(this.musicOn) this.music.play().catch(function(){});
   },
-  setMusic:function(on){ this.musicOn=on; if(!this.music) return; if(on){ if(this.win && !this.win.paused){} else this.music.play().catch(function(){}); } else { this.music.pause(); if(this.win) this.win.pause(); } },
-  playWin:function(){ if(!this.win||!this.musicOn) return; this.music.pause(); this.win.currentTime=0; this.win.play().catch(function(){}); },
-  stopWin:function(){ if(this.win && !this.win.paused){ this.win.pause(); if(this.musicOn) this.music.play().catch(function(){}); } },
+  setMusic:function(on){ this.musicOn=on; if(!this.music) return; if(on) this.music.play().catch(function(){}); else this.music.pause(); },
+  playWin:function(){}, stopWin:function(){},
   tone:function(f,dur,type,vol,when,slide){
     if(!this.sfxOn||!this.ctx) return; var c=this.ctx; if(c.state==="suspended") c.resume();
     var t=c.currentTime+(when||0); var o=c.createOscillator(), g=c.createGain();
