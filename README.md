@@ -5,6 +5,7 @@ Invite pages for family parties, hosted on GitHub Pages. Each party gets its own
 | Party | Folder | Link |
 | - | - | - |
 | Nora turns 9 (Nov 15, 2026) | `nora-9/` | https://katekness.github.io/parties/nora-9/ |
+| Nora's party games (TV + phone host) | `nora-9/games/` | https://katekness.github.io/parties/nora-9/games/ |
 
 ## Privacy
 - Every page has `noindex, nofollow` tags and the repo has a `robots.txt`, so search engines are told to skip it.
